@@ -38,11 +38,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
-      <body className={`${inter.variable} ${barlow.variable} ${exo.variable} relative`}>
+      <body className={`${inter.variable} ${barlow.variable} ${exo.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <main className="min-h-screen">
+          <div className="flex min-h-screen flex-col">
             {children}
-          </main>
+          </div>
         </ThemeProvider>
       </body>
     </html>

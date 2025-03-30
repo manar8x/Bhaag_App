@@ -23,22 +23,24 @@ export default function Home() {
   useEffect(() => {
     if (showLoginModal || showSamplePlanModal) {
       document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
     }
 
     return () => {
-      document.body.style.overflow = "auto"
+      document.body.style.removeProperty("overflow")
     }
   }, [showLoginModal, showSamplePlanModal])
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-[#0A0A0A] to-[#1C1C2E] text-white">
-      <motion.div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{ y: backgroundY }}>
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-[#0A0A0A] to-[#1C1C2E] text-white">
+      <motion.div 
+        className="fixed inset-0 z-0 opacity-20" 
+        style={{ y: backgroundY }}
+        initial={false}
+      >
         <div className="absolute inset-0 bg-[url('/background-grid.svg')] bg-repeat opacity-10"></div>
       </motion.div>
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex flex-col flex-1">
         <Navbar onLoginClick={() => setShowLoginModal(true)} />
         <Hero onGetStartedClick={() => setShowLoginModal(true)} />
         <WhyBhaag />
@@ -51,9 +53,8 @@ export default function Home() {
       </div>
 
       {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
-
       {showSamplePlanModal && <SamplePlanModal onClose={() => setShowSamplePlanModal(false)} />}
-    </main>
+    </div>
   )
 }
 
