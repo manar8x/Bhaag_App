@@ -7,6 +7,7 @@ interface User {
   name: string
   email: string
   isEmailVerified: boolean
+  photoURL?: string
   preferences?: Record<string, any>
 }
 
@@ -116,15 +117,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true)
     setError(null)
     try {
-      // TODO: Implement login with backend
-      // const response = await loginUser(email, password)
-      // setUser(response.user)
-      // const newSession = {
-      //   token: response.token,
-      //   refreshToken: response.refreshToken,
-      //   expiresAt: Date.now() + (rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000)
-      // }
-      // saveSession(newSession)
+      // Dummy login for testing
+      const dummyUser: User = {
+        id: '1',
+        name: 'Test User',
+        email: email,
+        isEmailVerified: true,
+        photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=test',
+        preferences: {
+          theme: 'system',
+          notifications: {
+            email: true,
+            push: true,
+            workoutReminders: true
+          }
+        }
+      }
+
+      setUser(dummyUser)
+      const newSession = {
+        token: 'dummy-token',
+        refreshToken: 'dummy-refresh-token',
+        expiresAt: Date.now() + (rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000)
+      }
+      saveSession(newSession)
     } catch (error) {
       setError('Invalid credentials')
       throw error
