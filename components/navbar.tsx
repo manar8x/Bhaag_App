@@ -4,34 +4,38 @@ import { useState, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
+import { useRouter } from "next/navigation"
 
-interface NavbarProps {
-  onLoginClick: () => void
-}
-
-export default function Navbar({ onLoginClick }: NavbarProps) {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
+  const router = useRouter()
   const { scrollY } = useScroll()
-
-  const backgroundColor = useTransform(scrollY, [0, 100], ["rgba(10, 10, 10, 0)", "rgba(10, 10, 10, 0.8)"])
-
-  const backdropBlur = useTransform(scrollY, [0, 100], ["blur(0px)", "blur(8px)"])
+  const backgroundColor = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.8)"]
+  )
+  const backdropBlur = useTransform(
+    scrollY,
+    [0, 100],
+    ["blur(0px)", "blur(10px)"]
+  )
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = document.querySelectorAll("section[id]")
-      const scrollPosition = window.scrollY + 100
-
-      sections.forEach((section) => {
-        const sectionTop = (section as HTMLElement).offsetTop
-        const sectionHeight = (section as HTMLElement).offsetHeight
-        const sectionId = section.getAttribute("id") || ""
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-          setActiveSection(sectionId)
+      const sections = ["home", "features", "faq", "sample"]
+      const currentSection = sections.find((section) => {
+        const element = document.getElementById(section)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          return rect.top <= 100 && rect.bottom >= 100
         }
+        return false
       })
+      if (currentSection) {
+        setActiveSection(currentSection)
+      }
     }
 
     window.addEventListener("scroll", handleScroll)
@@ -39,14 +43,14 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
   }, [])
 
   const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId)
-    if (section) {
-      window.scrollTo({
-        top: section.offsetTop - 80,
-        behavior: "smooth",
-      })
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
     }
-    setIsOpen(false)
+  }
+
+  const handleLoginClick = () => {
+    router.push("/auth/login")
   }
 
   return (
@@ -90,7 +94,7 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
             onClick={() => scrollToSection("sample")}
           />
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button onClick={onLoginClick} className="bg-primary text-black font-raleway font-semibold hover:glow">
+            <Button onClick={handleLoginClick} className="bg-primary text-black font-raleway font-semibold hover:glow">
               Login
             </Button>
           </motion.div>
@@ -119,7 +123,7 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
             <MobileNavLink href="#sample" label="Try a Sample Plan" onClick={() => scrollToSection("sample")} />
             <Button
               onClick={() => {
-                onLoginClick()
+                handleLoginClick()
                 setIsOpen(false)
               }}
               className="bg-primary text-black font-raleway font-semibold w-full"
@@ -133,46 +137,44 @@ export default function Navbar({ onLoginClick }: NavbarProps) {
   )
 }
 
-interface NavLinkProps {
+function NavLink({
+  href,
+  label,
+  active,
+  onClick,
+}: {
   href: string
   label: string
   active?: boolean
   onClick: () => void
-}
-
-function NavLink({ href, label, active, onClick }: NavLinkProps) {
+}) {
   return (
     <a
       href={href}
-      onClick={(e) => {
-        e.preventDefault()
-        onClick()
-      }}
-      className={`relative font-barlow font-semibold transition-colors duration-300 ${
-        active ? "text-primary" : "text-white hover:text-primary/80"
+      onClick={onClick}
+      className={`font-barlow font-medium transition-colors ${
+        active ? "text-primary" : "text-white/70 hover:text-white"
       }`}
     >
       {label}
-      {active && (
-        <motion.span
-          className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-          layoutId="activeSection"
-          transition={{ type: "spring", stiffness: 380, damping: 30 }}
-        />
-      )}
     </a>
   )
 }
 
-function MobileNavLink({ href, label, onClick }: NavLinkProps) {
+function MobileNavLink({
+  href,
+  label,
+  onClick,
+}: {
+  href: string
+  label: string
+  onClick: () => void
+}) {
   return (
     <a
       href={href}
-      onClick={(e) => {
-        e.preventDefault()
-        onClick()
-      }}
-      className="block py-2 text-lg font-barlow font-medium text-white hover:text-primary transition-colors duration-300"
+      onClick={onClick}
+      className="font-barlow font-medium text-white/70 hover:text-white transition-colors"
     >
       {label}
     </a>

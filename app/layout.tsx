@@ -1,6 +1,7 @@
-import type React from "react"
-import "./globals.css"
+import type { Metadata } from "next"
 import { Inter, Barlow, Exo_2 } from "next/font/google"
+import "./globals.css"
+import { AuthProvider } from "@/lib/auth-context"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({
@@ -21,7 +22,7 @@ const barlow = Barlow({
   display: "swap",
 })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "BHAAG - AI-Powered Running Coach",
   description: "Your personal AI-powered running coach that evolves with you.",
   generator: 'v0.dev'
@@ -40,9 +41,11 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${barlow.variable} ${exo.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-          <div className="flex min-h-screen flex-col">
-            {children}
-          </div>
+          <AuthProvider>
+            <div className="flex min-h-screen flex-col">
+              {children}
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

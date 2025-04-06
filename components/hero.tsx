@@ -4,13 +4,11 @@ import { useEffect, useRef, useState } from "react"
 import { motion, useAnimation } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
+import { useRouter } from "next/navigation"
 
-interface HeroProps {
-  onGetStartedClick: () => void
-}
-
-export default function Hero({ onGetStartedClick }: HeroProps) {
+export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const router = useRouter()
   const statsRef = useRef<HTMLDivElement>(null)
   const controls = useAnimation()
   const [currentStats, setCurrentStats] = useState({
@@ -19,6 +17,10 @@ export default function Hero({ onGetStartedClick }: HeroProps) {
     calories: 0,
     heartRate: 70,
   })
+
+  const handleGetStartedClick = () => {
+    router.push("/auth/login")
+  }
 
   // Animate the stats
   useEffect(() => {
@@ -151,7 +153,7 @@ export default function Hero({ onGetStartedClick }: HeroProps) {
               className="mb-16"
             >
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button onClick={onGetStartedClick} className="btn-primary text-lg font-barlow">
+                <Button onClick={handleGetStartedClick} className="btn-primary text-lg font-barlow">
                   Get Started
                 </Button>
               </motion.div>
