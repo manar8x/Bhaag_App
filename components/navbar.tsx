@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import Image from "next/image"
+import Logo from "@/components/ui/logo"
+import Avatar from "@/components/ui/avatar"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -94,10 +96,10 @@ export default function Navbar() {
         >
           <Link 
             href="/" 
-            className="flex items-center group"
+            className="flex items-center"
             onClick={handleHomeClick}
           >
-            <span className="text-4xl font-exo font-black tracking-wider text-primary group-hover:glow transition-all duration-300">BHAAG</span>
+            <Logo />
           </Link>
         </motion.div>
 
@@ -142,20 +144,9 @@ export default function Navbar() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="relative h-10 w-10 rounded-full overflow-hidden border-2 border-primary/50 hover:border-primary transition-all duration-300"
+                    className="relative"
                   >
-                    {user.photoURL ? (
-                      <Image
-                        src={user.photoURL}
-                        alt="User avatar"
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="h-full w-full bg-primary/10 flex items-center justify-center">
-                        <User className="h-5 w-5 text-primary" />
-                      </div>
-                    )}
+                    <Avatar photoURL={user?.photoURL} name={user?.name} size="sm" />
                   </motion.button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">

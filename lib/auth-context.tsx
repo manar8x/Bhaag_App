@@ -123,7 +123,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         name: 'Test User',
         email: email,
         isEmailVerified: true,
-        photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=test',
+        // Uncomment the next line to test with photo
+        // photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=test',
         preferences: {
           theme: 'system',
           notifications: {

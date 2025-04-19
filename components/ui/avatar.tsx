@@ -1,50 +1,51 @@
 "use client"
 
-import * as React from "react"
-import * as AvatarPrimitive from "@radix-ui/react-avatar"
+import Image from 'next/image'
+import { motion } from 'framer-motion'
 
-import { cn } from "@/lib/utils"
+interface AvatarProps {
+  photoURL?: string | null
+  name?: string | null
+  size?: 'sm' | 'md' | 'lg'
+  className?: string
+}
 
-const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
-    {...props}
-  />
-))
-Avatar.displayName = AvatarPrimitive.Root.displayName
+const sizeClasses = {
+  sm: 'h-8 w-8 text-xs',
+  md: 'h-10 w-10 text-sm',
+  lg: 'h-12 w-12 text-base'
+}
 
-const AvatarImage = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Image>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
-    {...props}
-  />
-))
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
+export default function Avatar({ photoURL, name, size = 'md', className = '' }: AvatarProps) {
+  const getInitials = (name: string) => {
+    if (!name) return '?'
+    const nameParts = name.trim().split(/\s+/).filter(Boolean)
+    if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase()
+    }
+    const firstInitial = nameParts[0].charAt(0)
+    const lastInitial = nameParts[nameParts.length - 1].charAt(0)
+    return (firstInitial + lastInitial).toUpperCase()
+  }
 
-const AvatarFallback = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Fallback>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted",
-      className
-    )}
-    {...props}
-  />
-))
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
-
-export { Avatar, AvatarImage, AvatarFallback }
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className={`relative rounded-full overflow-hidden border-[4px] border-[#00FFD1]/70 shadow-[0_0_8px_#00FFD1]/40 hover:border-[#00FFD1] hover:shadow-[0_0_12px_#00FFD1] transition-all duration-300 ${sizeClasses[size]} ${className}`}
+    >
+      {photoURL ? (
+        <Image
+          src={photoURL}
+          alt={name || 'User avatar'}
+          fill
+          className="object-cover"
+        />
+      ) : (
+        <div className="h-full w-full bg-black/50 flex items-center justify-center font-medium text-white">
+          {name ? getInitials(name) : '?'}
+        </div>
+      )}
+    </motion.div>
+  )
+}
