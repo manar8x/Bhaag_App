@@ -22,10 +22,20 @@ export default function DashboardPage() {
             className="text-center"
           >
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70"
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-gradient mb-2"
+              animate={{
+                scale: [1, 1.02, 1],
+                textShadow: [
+                  "0 0 0px rgba(0,255,209,0)",
+                  "0 0 10px rgba(0,255,209,0.5)",
+                  "0 0 0px rgba(0,255,209,0)",
+                ],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Number.POSITIVE_INFINITY,
+                repeatType: "reverse",
+              }}
             >
               Welcome back, {user?.name}!
             </motion.h1>
@@ -47,7 +57,7 @@ export default function DashboardPage() {
             >
               <Button
                 size="lg"
-                className="group bg-primary text-black font-raleway font-semibold hover:glow"
+                className="group bg-primary text-black font-raleway font-semibold hover:glow transition-all duration-300"
                 onClick={() => router.push('/dashboard/workouts')}
               >
                 Start Workout
@@ -56,7 +66,7 @@ export default function DashboardPage() {
               <Button
                 variant="outline"
                 size="lg"
-                className="group bg-primary/10 text-primary hover:bg-primary/20 font-raleway font-semibold"
+                className="group bg-primary/10 text-primary hover:bg-primary/20 font-raleway font-semibold hover:border-primary/50 transition-all duration-300"
                 onClick={() => router.push('/dashboard/progress')}
               >
                 View Progress
@@ -72,69 +82,162 @@ export default function DashboardPage() {
             className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-card/50 backdrop-blur-lg rounded-xl p-6 border border-border/50"
+              whileHover={{ 
+                scale: 1.02,
+                boxShadow: "0 0 25px 5px rgba(0, 255, 209, 0.25)",
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="group relative overflow-hidden bg-black/40 backdrop-blur-lg rounded-xl p-6 border border-primary/20 hover:border-primary/50 transition-all duration-300 flex flex-col h-[300px]"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <Dumbbell className="h-6 w-6 text-primary" />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100"
+                transition={{ duration: 0.3 }}
+              />
+              <div className="relative flex-1 flex flex-col">
+                <div className="flex items-center gap-4">
+                  <motion.div 
+                    className="p-3 bg-black/30 rounded-lg border border-primary/30 group-hover:border-primary/50 transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Dumbbell className="h-6 w-6 text-primary" />
+                  </motion.div>
+                  <motion.div 
+                    className="text-xl font-semibold bg-gradient-to-r from-[#00FFD1] to-[#2B8FFF] bg-clip-text text-transparent"
+                    animate={{
+                      opacity: [0.5, 1, 0.5]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      repeatType: "reverse"
+                    }}
+                  >
+                    TODAY'S WORKOUT
+                  </motion.div>
                 </div>
-                <h3 className="text-xl font-semibold">Today's Workout</h3>
+                <div className="mt-6 flex-1">
+                  <p className="text-muted-foreground/90 font-medium">
+                    Complete your scheduled workout for today and stay on track with your fitness goals.
+                  </p>
+                </div>
+                <div>
+                  <Button
+                    variant="outline"
+                    className="w-full bg-black/30 text-primary hover:text-primary border-primary/30 hover:border-primary hover:bg-primary/10 font-raleway font-semibold transition-all duration-300 group flex items-center justify-center gap-2"
+                    onClick={() => router.push('/dashboard/workouts')}
+                  >
+                    View Workout
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
               </div>
-              <p className="mt-4 text-muted-foreground">
-                Complete your scheduled workout for today and stay on track with your fitness goals.
-              </p>
-              <Button
-                variant="outline"
-                className="mt-4 w-full bg-primary/10 text-primary hover:bg-primary/20 font-raleway font-semibold"
-                onClick={() => router.push('/dashboard/workouts')}
-              >
-                View Workout
-              </Button>
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-card/50 backdrop-blur-lg rounded-xl p-6 border border-border/50"
+              whileHover={{ 
+                scale: 1.02,
+                boxShadow: "0 0 25px 5px rgba(0, 255, 209, 0.25)",
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="group relative overflow-hidden bg-black/40 backdrop-blur-lg rounded-xl p-6 border border-primary/20 hover:border-primary/50 transition-all duration-300 flex flex-col h-[300px]"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <LineChart className="h-6 w-6 text-primary" />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100"
+                transition={{ duration: 0.3 }}
+              />
+              <div className="relative flex-1 flex flex-col">
+                <div className="flex items-center gap-4">
+                  <motion.div 
+                    className="p-3 bg-black/30 rounded-lg border border-primary/30 group-hover:border-primary/50 transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <LineChart className="h-6 w-6 text-primary" />
+                  </motion.div>
+                  <motion.div 
+                    className="text-xl font-semibold bg-gradient-to-r from-[#00FFD1] to-[#2B8FFF] bg-clip-text text-transparent"
+                    animate={{
+                      opacity: [0.5, 1, 0.5]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      repeatType: "reverse"
+                    }}
+                  >
+                    PROGRESS OVERVIEW
+                  </motion.div>
                 </div>
-                <h3 className="text-xl font-semibold">Progress Overview</h3>
+                <div className="mt-6 flex-1">
+                  <p className="text-muted-foreground/90 font-medium">
+                    Track your achievements and see how far you've come in your fitness journey.
+                  </p>
+                </div>
+                <div>
+                  <Button
+                    variant="outline"
+                    className="w-full bg-black/30 text-primary hover:text-primary border-primary/30 hover:border-primary hover:bg-primary/10 font-raleway font-semibold transition-all duration-300 group flex items-center justify-center gap-2"
+                    onClick={() => router.push('/dashboard/progress')}
+                  >
+                    View Progress
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
               </div>
-              <p className="mt-4 text-muted-foreground">
-                Track your achievements and see how far you've come in your fitness journey.
-              </p>
-              <Button
-                variant="outline"
-                className="mt-4 w-full bg-primary/10 text-primary hover:bg-primary/20 font-raleway font-semibold"
-                onClick={() => router.push('/dashboard/progress')}
-              >
-                View Progress
-              </Button>
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="bg-card/50 backdrop-blur-lg rounded-xl p-6 border border-border/50"
+              whileHover={{ 
+                scale: 1.02,
+                boxShadow: "0 0 25px 5px rgba(0, 255, 209, 0.25)",
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="group relative overflow-hidden bg-black/40 backdrop-blur-lg rounded-xl p-6 border border-primary/20 hover:border-primary/50 transition-all duration-300 flex flex-col h-[300px]"
             >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-lg">
-                  <Calendar className="h-6 w-6 text-primary" />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100"
+                transition={{ duration: 0.3 }}
+              />
+              <div className="relative flex-1 flex flex-col">
+                <div className="flex items-center gap-4">
+                  <motion.div 
+                    className="p-3 bg-black/30 rounded-lg border border-primary/30 group-hover:border-primary/50 transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Calendar className="h-6 w-6 text-primary" />
+                  </motion.div>
+                  <motion.div 
+                    className="text-xl font-semibold bg-gradient-to-r from-[#00FFD1] to-[#2B8FFF] bg-clip-text text-transparent"
+                    animate={{
+                      opacity: [0.5, 1, 0.5]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      repeatType: "reverse"
+                    }}
+                  >
+                    UPCOMING SCHEDULE
+                  </motion.div>
                 </div>
-                <h3 className="text-xl font-semibold">Upcoming Schedule</h3>
+                <div className="mt-6 flex-1">
+                  <p className="text-muted-foreground/90 font-medium">
+                    Plan your workouts and stay consistent with your fitness routine.
+                  </p>
+                </div>
+                <div>
+                  <Button
+                    variant="outline"
+                    className="w-full bg-black/30 text-primary hover:text-primary border-primary/30 hover:border-primary hover:bg-primary/10 font-raleway font-semibold transition-all duration-300 group flex items-center justify-center gap-2"
+                    onClick={() => router.push('/dashboard/schedule')}
+                  >
+                    View Schedule
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
               </div>
-              <p className="mt-4 text-muted-foreground">
-                Plan your workouts and stay consistent with your fitness routine.
-              </p>
-              <Button
-                variant="outline"
-                className="mt-4 w-full bg-primary/10 text-primary hover:bg-primary/20 font-raleway font-semibold"
-                onClick={() => router.push('/dashboard/schedule')}
-              >
-                View Schedule
-              </Button>
             </motion.div>
           </motion.div>
 
@@ -142,16 +245,32 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 1 }}
-            className="mt-20 bg-card/50 backdrop-blur-lg rounded-xl p-8 border border-border/50"
+            className="mt-20 bg-card/50 backdrop-blur-lg rounded-xl p-8 border border-border/50 transition-all duration-300"
           >
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold">Recent Achievements</h2>
+                <motion.h2 
+                  className="text-2xl font-bold text-gradient"
+                  animate={{
+                    textShadow: [
+                      "0 0 0px rgba(0,255,209,0)",
+                      "0 0 10px rgba(0,255,209,0.5)",
+                      "0 0 0px rgba(0,255,209,0)",
+                    ],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "reverse",
+                  }}
+                >
+                  Recent Achievements
+                </motion.h2>
                 <p className="mt-2 text-muted-foreground">Celebrate your fitness milestones</p>
               </div>
               <Button
                 variant="outline"
-                className="bg-primary/10 text-primary hover:bg-primary/20 font-raleway font-semibold"
+                className="bg-primary/10 text-primary hover:bg-primary/20 font-raleway font-semibold hover:border-primary/50 transition-all duration-300"
                 onClick={() => router.push('/dashboard/achievements')}
               >
                 View All
@@ -161,13 +280,21 @@ export default function DashboardPage() {
               {[1, 2, 3].map((item) => (
                 <motion.div
                   key={item}
-                  whileHover={{ scale: 1.02 }}
-                  className="bg-background/50 rounded-lg p-4 border border-border/50"
+                  whileHover={{ 
+                    scale: 1.02,
+                    borderColor: "rgba(0, 255, 209, 0.3)",
+                    transition: { duration: 0.2 }
+                  }}
+                  className="bg-background/50 rounded-lg p-4 border border-border/50 transition-all duration-300"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="p-2 bg-primary/10 rounded-lg">
+                    <motion.div 
+                      className="p-2 bg-primary/10 rounded-lg"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <Award className="h-5 w-5 text-primary" />
-                    </div>
+                    </motion.div>
                     <div>
                       <h3 className="font-semibold">5-Day Streak</h3>
                       <p className="text-sm text-muted-foreground">Completed 5 workouts in a row</p>

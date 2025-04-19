@@ -5,6 +5,7 @@ import { motion, useAnimation } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Logo from "@/components/ui/logo"
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -176,7 +177,7 @@ export default function Hero() {
                 <div className="h-[600px] w-full overflow-hidden rounded-[2rem] bg-gradient-to-b from-[#0A0A0A] to-[#1C1C2E] p-4 relative">
                   {/* App header */}
                   <div className="flex justify-between items-center mb-4">
-                    <div className="text-primary font-exo font-black text-2xl">BHAAG</div>
+                    <Logo className="text-2xl" />
                     <div className="flex space-x-2">
                       <div className="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center">
                         <svg
